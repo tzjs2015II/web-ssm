@@ -1,4 +1,4 @@
-package com.wgl.model;
+package com.ssm.model;
 
 import lombok.Data;
 

@@ -1,8 +1,8 @@
-package com.wgl.service.impl;
+package com.ssm.service.impl;
 
-import com.wgl.dao.TestMapper;
-import com.wgl.model.Test;
-import com.wgl.service.TestService;
+import com.ssm.dao.TestMapper;
+import com.ssm.model.Test;
+import com.ssm.service.TestService;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;

@@ -1,6 +1,6 @@
-package com.wgl.dao;
+package com.ssm.dao;
 
-import com.wgl.model.Test;
+import com.ssm.model.Test;
 
 public interface TestMapper {
     Test selectTest(String testStr);

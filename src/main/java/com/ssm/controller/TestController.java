@@ -1,8 +1,9 @@
-package com.wgl.controller;
+package com.ssm.controller;
 
-import com.wgl.model.Test;
-import com.wgl.service.TestService;
-import org.codehaus.jackson.map.ObjectMapper;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.ssm.model.Test;
+import com.ssm.service.TestService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,9 +23,11 @@ public class TestController {
     public void selectUser(HttpServletRequest request, HttpServletResponse response)throws IOException {
         request.setCharacterEncoding("GBK");
         response.setCharacterEncoding("GBK");
-        Integer userId = Integer.parseInt(request.getParameter("id"));
-        String testString="";
+
+        String testString=request.getParameter("test");
+        testString="1";
         Test test = this.testService.selectTest(testString);
+
         ObjectMapper mapper = new ObjectMapper();
         response.getWriter().write(mapper.writeValueAsString(test));
         response.getWriter().close();
