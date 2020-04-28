@@ -247,13 +247,6 @@
             <version>1.9</version>
         </dependency>
 
-        <!--增加对mybatis plus的支持-->
-        <dependency>
-            <groupId>com.baomidou</groupId>
-            <artifactId>mybatis-plus</artifactId>
-            <version>3.3.1.tmp</version>
-        </dependency>
-
         <!--lomcbox支持-->
         <dependency>
             <groupId>org.projectlombok</groupId>
