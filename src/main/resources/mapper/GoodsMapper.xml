@@ -3,6 +3,8 @@
 
 <!-- 设置为Dao接口方法提供sql语句配置 -->
 <mapper namespace="com.ssm.dao.GoodsMapper">
-
+    <select id="selectGoodsAll" resultType="Goods">
+        SELECT * FROM goods
+    </select>
 
 </mapper>

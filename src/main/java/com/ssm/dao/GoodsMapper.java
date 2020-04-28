@@ -1,4 +1,9 @@
 package com.ssm.dao;
 
-public class GoodsMapper {
+import com.ssm.model.Goods;
+
+import java.util.List;
+
+public interface GoodsMapper {
+    List<Goods> selectGoodsAll();
 }

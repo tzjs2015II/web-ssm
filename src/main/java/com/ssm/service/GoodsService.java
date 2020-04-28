@@ -1,4 +1,9 @@
 package com.ssm.service;
 
-public class GoodsService {
+import com.ssm.model.Goods;
+
+import java.util.List;
+
+public interface GoodsService {
+    public List<Goods> selectGoodsAll ();
 }
