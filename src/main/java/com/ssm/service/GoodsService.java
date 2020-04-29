@@ -6,4 +6,6 @@ import java.util.List;
 
 public interface GoodsService {
     public List<Goods> selectGoodsAll ();
+
+    public List<Goods> selectGoodsByName(String goodsName);
 }

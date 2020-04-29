@@ -20,7 +20,7 @@ public class GoodsController {
     private GoodsService goodsService;
 
     /**
-     *  测试查询全部接口
+     *  测试查询全部物品接口
      * @param request
      * @param response
      * @throws IOException
@@ -32,4 +32,24 @@ public class GoodsController {
         response.getWriter().write(mapper.writeValueAsString(goodsList));
         response.getWriter().close();
     }
+
+    /**
+     *  测试模糊查询物品接口
+     * @param request
+     * @param response
+     * @throws IOException
+     */
+    @RequestMapping("/goodsSelectByName.do")
+    public void goodsSelectByName(HttpServletRequest request, HttpServletResponse response)throws IOException {
+        request.setCharacterEncoding("GBK");
+        response.setCharacterEncoding("GBK");
+        String goodsName = request.getParameter("goodsName");
+        List<Goods> goodsList = this.goodsService.selectGoodsByName(goodsName);
+        ObjectMapper mapper = new ObjectMapper();
+        response.getWriter().write(mapper.writeValueAsString(goodsList));
+        response.getWriter().close();
+    }
+
+
+//---------------------------------内部修改------------------------------------------------------
 }

@@ -7,4 +7,7 @@
         SELECT * FROM goods
     </select>
 
+    <select id="selectGoodsByName" resultType="Goods" parameterType="String">
+        SELECT * FROM goods WHERE goods_name LIKE "%"#{goodsName}"%"
+    </select>
 </mapper>
