@@ -8,4 +8,8 @@ public interface GoodsMapper {
     List<Goods> selectGoodsAll();
 
     List<Goods> selectGoodsByName(String goodsName);
+
+    Goods selectGoodsById(Long goodsId);
+
+    void updateGoods(Goods goods);
 }

@@ -3,8 +3,22 @@
 
 <!-- 设置为Dao接口方法提供sql语句配置 -->
 <mapper namespace="com.ssm.dao.OrdersMapper">
-    <select id="selectOrderTest" resultType="Orders" parameterType="double">
-        SELECT * FROM orders WHERE order_id = #{orderId}
-    </select>
+    <!--新增订单-->
+    <insert id="addOrders" parameterType="com.ssm.model.Orders">
+        INSERT INTO orders (
+        order_id,
+        goods_id,
+        price,
+        sales,
+        amount,
+        order_time)
+        VALUES (
+        #{orderId},
+        #{goodsId},
+        #{price},
+        #{sales},
+        #{amount},
+        #{orderTime})
+    </insert>
 
 </mapper>

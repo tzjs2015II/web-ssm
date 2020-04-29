@@ -11,11 +11,11 @@ public class Orders {
     /**
      * 订单id
      */
-    private Double orderId;
+    private Long orderId;
     /**
      * 商品id
      */
-    private Double goodsId;
+    private Long goodsId;
     /**
      * 商品售价
      */

@@ -19,17 +19,17 @@ public class TestController {
     @Autowired
     private TestService testService;
 
-    @RequestMapping("/showUser.do")
+    @RequestMapping("/testShow.do")
     public void selectUser(HttpServletRequest request, HttpServletResponse response)throws IOException {
-        request.setCharacterEncoding("GBK");
-        response.setCharacterEncoding("GBK");
+        request.setCharacterEncoding("UTF-8");
+        response.setCharacterEncoding("UTF-8");
 
         String testString=request.getParameter("test");
         testString="1";
         Test test = this.testService.selectTest(testString);
 
         ObjectMapper mapper = new ObjectMapper();
-        response.getWriter().write(mapper.writeValueAsString(test));
+        response.getWriter().write("测试回传信息|| test msg");
         response.getWriter().close();
     }
 

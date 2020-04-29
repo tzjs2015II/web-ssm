@@ -3,11 +3,21 @@
 
 <!-- 设置为Dao接口方法提供sql语句配置 -->
 <mapper namespace="com.ssm.dao.GoodsMapper">
+    <!--查询全部-->
     <select id="selectGoodsAll" resultType="Goods">
         SELECT * FROM goods
     </select>
-
+    <!--根据名字相似查询-->
     <select id="selectGoodsByName" resultType="Goods" parameterType="String">
         SELECT * FROM goods WHERE goods_name LIKE "%"#{goodsName}"%"
     </select>
+    <!--根据ID查询-->
+    <select id="selectGoodsById" resultType="Goods" parameterType="Long">
+        SELECT * FROM goods WHERE goods_id = #{goodsId}
+    </select>
+    <!--更新库存-->
+    <update id="updateGoods" parameterType="com.ssm.model.Goods">
+        UPDATE goods SET goods_cont = #{goodsCont} WHERE goods_id = #{goodsId}
+    </update>
+
 </mapper>

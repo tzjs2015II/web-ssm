@@ -1,4 +1,8 @@
 package com.ssm.dao;
 
-public class OrdersMapper {
+
+import com.ssm.model.Orders;
+
+public interface OrdersMapper {
+    void addOrders(Orders orders);
 }

@@ -18,9 +18,20 @@ public class GoodsServiceImpl implements GoodsService {
         return this.goodsMapper.selectGoodsAll();
 
     }
+
     @Override
-    public List<Goods> selectGoodsByName(String goodsName){
+    public List<Goods> selectGoodsByName(String goodsName) {
         return this.goodsMapper.selectGoodsByName(goodsName);
+    }
+
+    @Override
+    public Goods selectGoodsById(Long goodsId) {
+        return this.goodsMapper.selectGoodsById(goodsId);
+    }
+
+    @Override
+    public void updateGoods(Goods goods) {
+        this.goodsMapper.updateGoods(goods);
     }
 
 }

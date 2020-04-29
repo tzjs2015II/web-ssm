@@ -10,7 +10,7 @@ public class Goods {
     /**
      * 商品id
      */
-    private Double goodsId;
+    private Long goodsId;
     /**
      * 售价
      */

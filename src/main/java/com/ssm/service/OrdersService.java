@@ -1,5 +1,8 @@
 package com.ssm.service;
 
-public class OrdersService {
+import com.ssm.model.Orders;
 
+
+public interface OrdersService {
+    void addOrders(Orders orders);
 }

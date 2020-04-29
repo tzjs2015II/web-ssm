@@ -29,6 +29,7 @@ public class GoodsController {
     public void goodsSelectAll(HttpServletRequest request, HttpServletResponse response)throws IOException {
         List<Goods> goodsList = this.goodsService.selectGoodsAll();
         ObjectMapper mapper = new ObjectMapper();
+        response.setCharacterEncoding("UTF-8");
         response.getWriter().write(mapper.writeValueAsString(goodsList));
         response.getWriter().close();
     }
@@ -39,10 +40,10 @@ public class GoodsController {
      * @param response
      * @throws IOException
      */
-    @RequestMapping("/goodsSelectByName.do")
+    @RequestMapping(value="/goodsSelectByName.do",produces = "text/plain;charset=utf-8")
     public void goodsSelectByName(HttpServletRequest request, HttpServletResponse response)throws IOException {
-        request.setCharacterEncoding("GBK");
-        response.setCharacterEncoding("GBK");
+        request.setCharacterEncoding("UTF-8");
+        response.setCharacterEncoding("UTF-8");
         String goodsName = request.getParameter("goodsName");
         List<Goods> goodsList = this.goodsService.selectGoodsByName(goodsName);
         ObjectMapper mapper = new ObjectMapper();
@@ -51,5 +52,27 @@ public class GoodsController {
     }
 
 
-//---------------------------------内部修改------------------------------------------------------
+//---------------------------------------------------------------------------------------
+
+    /**
+     * 内部查询
+     * @param goodsId
+     * @return
+     */
+    public Goods selectGoodsById(Long goodsId){
+        Goods goods = this.goodsService.selectGoodsById(goodsId);
+        return goods;
+    }
+
+    /**
+     *  更新库存
+     * @param goodsId
+     * @param goodsCont
+     */
+    public void updateGoods(Long goodsId,int goodsCont){
+        Goods goods = selectGoodsById(goodsId);
+        int goodsContNew= goods.getGoodsCont()-goodsCont;
+        goods.setGoodsCont(goodsContNew);
+        this.goodsService.updateGoods(goods);
+    }
 }
