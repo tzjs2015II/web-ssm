@@ -29,6 +29,7 @@ public class OrdersController {
      */
     @RequestMapping(value="/addOrders.do",produces = "text/plain;charset=utf-8")
     public void addOrders(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        response.setCharacterEncoding("UTF-8");
         Orders orders= new Orders();
         //通过雪花算法生成订单id
         SnowflakeIdWorker idWorker = new SnowflakeIdWorker(1, 1);
