@@ -18,4 +18,5 @@ public class GoodsServiceImpl implements GoodsService {
         return this.goodsMapper.selectGoodsAll();
 
     }
+
 }
