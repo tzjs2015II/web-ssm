@@ -40,14 +40,31 @@ public class GoodsController {
      * @param response
      * @throws IOException
      */
-    @RequestMapping(value="/goodsSelectByName.do",produces = "text/plain;charset=utf-8")
+    @RequestMapping(value="/goodsSelectByName.do")
     public void goodsSelectByName(HttpServletRequest request, HttpServletResponse response)throws IOException {
         request.setCharacterEncoding("UTF-8");
         response.setCharacterEncoding("UTF-8");
         String goodsName = request.getParameter("goodsName");
         List<Goods> goodsList = this.goodsService.selectGoodsByName(goodsName);
+
         ObjectMapper mapper = new ObjectMapper();
         response.getWriter().write(mapper.writeValueAsString(goodsList));
+        response.getWriter().close();
+    }
+
+    /**
+     *  通过id查询物品信息
+     * @param request
+     * @param response
+     * @throws IOException
+     */
+    @RequestMapping(value="/selectGoodsByIdResponse.do")
+    public void selectGoodsByIdResponse(HttpServletRequest request, HttpServletResponse response)throws IOException{
+        response.setCharacterEncoding("UTF-8");
+        Long goodsId= Long.valueOf(request.getParameter("goodsId"));
+        Goods goods = this.goodsService.selectGoodsById(goodsId);
+        ObjectMapper mapper = new ObjectMapper();
+        response.getWriter().write(mapper.writeValueAsString(goods));
         response.getWriter().close();
     }
 

@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <script src="https://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+
+
+<script>
+    //针对动态元素会失效
+
+    var text=0;
+    var goodsArrList = [];
+    var sales=[];
+    //增加函数
+    function pluscount() {
+
+        //得到input输入框
+        var i = document.getElementById("text");
+        //将value的字符型转为数字类型
+        var value = parseInt(i.getAttribute("value"));
+        //规定value上限200，setAttribute后加属性名和属性值
+        if (value <=200){
+            i.setAttribute("value",++value);
+        }
+    }
+
+    //减少函数
+    function reducecount() {
+        var i = document.getElementById("text");
+        var value = parseInt(i.getAttribute("value"));
+        //在value的值大于0的情况下，value的值跟随增加按钮增加
+        if (value>0){
+            i.setAttribute("value", --value);
+        }
+    }
+
+    /**
+     * 显示对应id数据
+     */
+    function selectGoodsById() {
+        var ids = JSON.parse(localStorage.getItem("goodsId"));
+        var RUL = 'http://localhost:8091/web_ssm_war/goods/selectGoodsByIdResponse.do';
+
+        if(text >=ids.length){
+            for (var p in ids){
+                goodsId+ids[p]+",";
+            }
+            return
+        }
+        var model = {
+            goodsId: ids[text]
+        };
+        $.ajax({
+            type: "POST",
+            url: RUL,
+            dataType: "json",
+            data: model,
+            success: function (data) {
+                text++;
+                var table = $('#table');
+                table.append(
+                    '<tr>'
+                    + '<td id="goodsName">' + data.goodsName + '</td>'
+                    + '<td >' + '<button class="count" id="plus" onclick="pluscount()">'+"+"+'</button><input type="text" id="text" value="1"/><button class="count" id="reduce" onclick="reducecount()">'+"-"+'</button>' + '</td>'
+                    + '<td id="goodsPrice">' + "单价：" + '<span class="price">' + data.price + '</span>' + '</td>'
+                    + '</tr>'
+                )
+                goodsArrList.push(data.goodsId);
+                selectGoodsById()
+            }
+        });
+
+    }
+
+    /**
+     *  提交订单
+     * @param goodsId
+     * @param sales
+     */
+    function updateOrders() {
+        var model={
+            "goodsId":goodsArrList.join(','),
+            "sales":sales=[].join(',')
+        };
+        var RUL = 'http://localhost:8091/web_ssm_war/orders/addOrders.do';
+        $.ajax({
+            type: "POST",
+            url: RUL,
+            dataType: "json",
+            data: model
+        });
+    }
+</script>
+
+
+<body onload="selectGoodsById()">
+
+
+<table border="2px solid #ccc" id="table">
+    <thead>
+
+    <th>商品名称</th>
+    <th>数量</th>
+    <th>单价</th>
+<!--    <th>操作</th>-->
+    </thead>
+    <tbody>
+
+    </tbody>
+</table>
+
+<input type="button" value="提交订单" onclick="updateOrders()">
+</body>
+<style type="text/css">
+    table {
+        width: 1000px;
+        /* height: 300px; */
+        border-collapse: collapse;
+        table-layout: fixed;
+        text-align: center;
+        font-size: 18px;
+        margin: 0 auto;
+    }
+
+    a {
+        text-decoration: none;
+        color: black;
+    }
+
+    tr {
+        height: 50px;
+    }
+
+    .check {
+        width: 20px;
+        height: 20px;
+    }
+
+    .checkOnly {
+        width: 20px;
+        height: 20px;
+    }
+
+    .empty {
+        font-size: 25px;
+        position: fixed;
+        top: 45%;
+        left: 45%;
+        display: none;
+    }
+
+    .empty a {
+        color: pink;
+    }
+
+    .empty a:hover {
+        text-decoration: underline;
+    }
+</style>

@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.text.ParseException;
 import java.util.Date;
 
 @Controller
@@ -28,13 +29,15 @@ public class OrdersController {
      * @param response
      */
     @RequestMapping(value="/addOrders.do",produces = "text/plain;charset=utf-8")
-    public void addOrders(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    public void addOrders(HttpServletRequest request, HttpServletResponse response) throws IOException, ParseException {
         response.setCharacterEncoding("UTF-8");
         Orders orders= new Orders();
         //通过雪花算法生成订单id
         SnowflakeIdWorker idWorker = new SnowflakeIdWorker(1, 1);
         orders.setOrderId(idWorker.nextId());
+
         orders.setOrderTime(new Date());
+
         String[] goodsIdListStr=request.getParameter("goodsId").split(",");
         String[] salesList = request.getParameter("sales").split(",");
         //确定商品库存
@@ -43,6 +46,7 @@ public class OrdersController {
             if(goods.getGoodsCont()< Integer.parseInt(salesList[i])){
                 response.getWriter().write(goods.getGoodsName()+"的库存不足");
                 response.getWriter().close();
+                return;
             }
         }
         for(int i=0;i<goodsIdListStr.length;i++){
@@ -59,6 +63,7 @@ public class OrdersController {
             this.ordersService.addOrders(orders);
             //修改goods表库存
             this.goodsController.updateGoods(goods.getGoodsId(),orders.getSales());
+            response.getWriter().write("交易成功");
             response.getWriter().close();
         }
     }

@@ -2,26 +2,140 @@
 <html>
 
 <head>
+    <head>
+        <script src="https://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
+    </head>
     <meta charset="UTF-8">
     <title>test</title>
 </head>
 <script>
-    function selectUser() {
-        var xmlhttp = new XMLHttpRequest();
-        xmlhttp.onreadystatechange = function () {
-            if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
-                document.getElementById("test").innerHTML = xmlhttp.responseText;
+    /**
+     *  查询方法
+     */
+    function selectGoodsByName() {
+        var model = {
+            goodsName: goodsName.value
+        };
+        var RUL = 'http://localhost:8091/web_ssm_war/goods/goodsSelectByName.do';
+        $.ajax({
+            type: "POST",
+            url: RUL,
+            dataType: "json",
+            data: model,
+            success: function (data) {
+                //删除原有表格行
+                var table = $("#box");
+                table.find("tr").each(function (i) {
+                    if (i != 0) {
+                        //表头不删
+                        this.remove();
+                    }
+                });
+                // console.log(data);
+                //循环添加到table中
+                var table = $('#box');
+                for (var p in data) {
+                    table.append(
+                        '<tr id="select-tr" class="select-tr">'
+                        + '<td>' + data[p].goodsName + '</td>'
+                        + '<td>' + data[p].price + '</td>'
+                        + '<td>' + data[p].goodsCont + '</td>'
+                        + '<td><a href="#" class="addData" onclick="addData(data[p].goodsId)">' + '加入购物车' + '</a></td>'
+                        + '</tr>'
+                    )
+                }
+            }
+        });
+    }
+
+    /**
+     * 展示全部商品方法
+     */
+    function selectGoodsAll() {
+        var RUL = 'http://localhost:8091/web_ssm_war/goods/goodsSelectAll.do';
+        $.ajax({
+            type: "GET",
+            url: RUL,
+            dataType: "json",
+            success: function (data) {
+                console.log(data);
+                var table = $('#box');
+                for (var p in data) {
+                    var goodsId = data[p].goodsId;
+                    table.append(
+                        '<tr id="select-tr" class="select-tr">'
+                        + '<td>' + data[p].goodsName + '</td>'
+                        + '<td>' + data[p].price + '</td>'
+                        + '<td>' + data[p].goodsCont + '</td>'
+                        + '<td><a href="#" class="addData" onclick="addData(' + goodsId + ')">' + '加入购物车' + '</a></td>'
+                        + '</tr>'
+                    )
+                }
+            }
+        });
+    }
+
+    var goodsArrList = [];
+
+    /**
+     * 存入数组
+     */
+    function addData(goodsId) {
+        goodsArrList.push(goodsId);
+        // console.log(goodsArrList);
+    }
+
+    /**
+     * 去重，并写入缓存
+     */
+    function orders() {
+        var newArr= unique(goodsArrList);
+        localStorage.setItem("goodsId", JSON.stringify(newArr));
+        //打开新的订单界面
+        top.location.href='http://localhost:8091/web_ssm_war/addOrders.html'
+        // console.log(newArr);
+    }
+
+    /**
+     *  数组去重
+     * @param array
+     * @returns {[]}
+     */
+    function unique(array) {
+        var n = {}, r = [], len = array.length, val, type;
+        for (var i = 0; i < array.length; i++) {
+            val = array[i];
+            type = typeof val;
+            if (!n[val]) {
+                n[val] = [type];
+                r.push(val);
+            } else if (n[val].indexOf(type) < 0) {
+                n[val].push(type);
+                r.push(val);
             }
         }
-        xmlhttp.open("POST", "test/showUser.do", true);
-        xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-        xmlhttp.send("test=1");
+        return r;
     }
+
 </script>
 
-<body>
-<p id="test">Hello World!</p>
-<button type="button" οnclick="selectUser()">onclick test</button>
+<body onload="selectGoodsAll()">
+<form>
+    <label for="goodsName">商品检索</label>：<input type="text" name="goodsName" id="goodsName">
+    <input type="button" value="提交" onclick="selectGoodsByName()">
+    <input type="button" value="前去结账" onclick="orders()">
+</form>
+<div>
+    <table id="box" class="tab">
+        <tr>
+            <td>商品名称</td>
+            <td>商品单价</td>
+            <td>剩余库存</td>
+            <td>操作</td>
+        </tr>
+    </table>
+</div>
+
 </body>
 
 </html>
